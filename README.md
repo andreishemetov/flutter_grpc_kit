@@ -17,7 +17,7 @@ For [flutter_alice](https://pub.dev/packages/flutter_alice) network inspection, 
 dependencies:
   flutter_grpc_kit:
     git:
-      url: https://github.com/your-org/flutter_grpc_kit.git
+      url: https://github.com/andreishemetov/flutter_grpc_kit.git
       ref: v0.1.0 # tag or branch
 ```
 
@@ -61,21 +61,6 @@ result.fold(
 ```
 
 Implement **`AuthHandler`** in your app. Pass extra per-call headers via `GrpcExecutor.metadata`.
-
-## Publish on GitHub
-
-1. Create a repo (e.g. `your-org/flutter_grpc_kit`).
-2. Update `homepage` / `repository` in `pubspec.yaml`.
-3. From this folder:
-
-```bash
-git init
-git add .
-git commit -m "Initial release 0.1.0"
-git remote add origin git@github.com:your-org/flutter_grpc_kit.git
-git push -u origin main
-git tag v0.1.0 && git push origin v0.1.0
-```
 
 ## Example app
 
