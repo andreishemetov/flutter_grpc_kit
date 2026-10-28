@@ -1,7 +1,7 @@
 name: flutter_grpc_kit
 description: >-
-  gRPC channel wiring, unary executor with auth refresh, debug logging,
-  and Flutter Alice inspector integration for Dart/Flutter apps.
+  gRPC channel wiring, unary executor with auth refresh, and debug logging
+  for Dart/Flutter apps.
 version: 0.1.0
 homepage: https://github.com/your-org/flutter_grpc_kit
 repository: https://github.com/your-org/flutter_grpc_kit
@@ -12,7 +12,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_alice: ^2.0.1
   grpc: ^5.1.0
   protobuf: ^6.0.0
 

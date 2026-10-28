@@ -6,7 +6,8 @@ Reusable gRPC building blocks for Flutter apps:
 - **`GrpcChannelFactory`** / **`GrpcEndpoint`** — parse gateway URLs and own a `ClientChannel`
 - **`GrpcServiceClient`** — base class for generated stub wrappers
 - **`GrpcLoggingInterceptor`** — PrettyDio-style boxed logs in debug
-- **`GrpcAliceInterceptor`** — send gRPC calls to [flutter_alice](https://pub.dev/packages/flutter_alice) inspector
+
+For [flutter_alice](https://pub.dev/packages/flutter_alice) network inspection, add the sibling package [`grpc_alice_interceptor`](../grpc_alice_interceptor).
 
 ## Install
 
@@ -33,7 +34,6 @@ Then run `flutter pub get`.
 ## Quick start
 
 ```dart
-import 'package:flutter_alice/alice.dart';
 import 'package:flutter_grpc_kit/flutter_grpc_kit.dart';
 
 final factory = GrpcChannelFactory(gatewayUrl: 'https://grpc.example.com');
@@ -42,14 +42,8 @@ final executor = GrpcExecutor(
   metadata: {'x-app-version': '1.0.0'},
 );
 
-final alice = Alice(navigatorKey: navigatorKey);
 final interceptors = [
   GrpcLoggingInterceptor(),
-  GrpcAliceInterceptor(
-    onCallRecorded: alice.addHttpCall,
-    serverHost: factory.endpoint.host,
-    secure: factory.endpoint.useTls,
-  ),
 ];
 
 // Pass interceptors when constructing generated clients:

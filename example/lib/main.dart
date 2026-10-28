@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_alice/alice.dart';
 import 'package:flutter_grpc_kit/flutter_grpc_kit.dart';
+import 'package:grpc_alice_interceptor/grpc_alice_interceptor.dart';
 
 import 'greeter_client.dart';
 import 'in_memory_auth_handler.dart';
