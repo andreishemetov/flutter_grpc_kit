@@ -27,7 +27,9 @@ class _ExampleAppState extends State<ExampleApp> {
   GrpcChannelFactory? _channelFactory;
   ExampleGreeterClient? _greeter;
 
-  final _gatewayController = TextEditingController(text: 'http://127.0.0.1:50051');
+  final _gatewayController = TextEditingController(
+    text: 'https://grpcb.in',
+  );
   final _nameController = TextEditingController(text: 'world');
   final _tokenController = TextEditingController(text: 'demo-token');
 
@@ -38,7 +40,12 @@ class _ExampleAppState extends State<ExampleApp> {
   @override
   void initState() {
     super.initState();
-    _alice = Alice(showInspectorOnShake: true);
+    _alice = Alice(
+      showInspectorOnShake: true,
+      // Alice's toast notifications require an OverlaySupport wrapper. The
+      // inspector itself works through the navigator key without one.
+      showNotification: false,
+    );
     _auth = InMemoryAuthHandler(token: _tokenController.text);
     _executor = GrpcExecutor(
       authHandler: _auth,
@@ -58,7 +65,9 @@ class _ExampleAppState extends State<ExampleApp> {
 
   void _rebuildClient() {
     unawaited(_channelFactory?.dispose());
-    final factory = GrpcChannelFactory(gatewayUrl: _gatewayController.text.trim());
+    final factory = GrpcChannelFactory(
+      gatewayUrl: _gatewayController.text.trim(),
+    );
     final interceptors = <ClientInterceptor>[
       GrpcLoggingInterceptor(),
       GrpcAliceInterceptor(
@@ -76,7 +85,11 @@ class _ExampleAppState extends State<ExampleApp> {
   }
 
   Future<void> _sayHello() async {
-    _auth.setToken(_tokenController.text.trim().isEmpty ? null : _tokenController.text.trim());
+    _auth.setToken(
+      _tokenController.text.trim().isEmpty
+          ? null
+          : _tokenController.text.trim(),
+    );
     setState(() {
       _loading = true;
       _lastMessage = null;
@@ -124,7 +137,7 @@ class _ExampleAppState extends State<ExampleApp> {
               controller: _gatewayController,
               decoration: const InputDecoration(
                 labelText: 'Gateway URL',
-                helperText: 'Use http://10.0.2.2:50051 on Android emulator',
+                helperText: 'Public grpcb.in TLS endpoint',
               ),
               onSubmitted: (_) => _rebuildClient(),
             ),
@@ -160,11 +173,13 @@ class _ExampleAppState extends State<ExampleApp> {
             const SizedBox(height: 24),
             if (_lastMessage != null) SelectableText('Reply: $_lastMessage'),
             if (_lastError != null)
-              SelectableText('Error: $_lastError', style: TextStyle(color: Theme.of(context).colorScheme.error)),
+              SelectableText(
+                'Error: $_lastError',
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
             const SizedBox(height: 24),
             const Text(
-              'Start the sample server from the example folder:\n'
-              'dart run bin/server.dart\n\n'
+              'Calls hello.HelloService/SayHello on grpcb.in.\n\n'
               'Debug builds log gRPC calls to the console. '
               'Use the network icon or shake the device for Alice.',
             ),

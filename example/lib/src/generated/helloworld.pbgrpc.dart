@@ -21,7 +21,7 @@ import 'helloworld.pb.dart' as $0;
 export 'helloworld.pb.dart';
 
 /// The greeting service definition.
-@$pb.GrpcServiceName('helloworld.Greeter')
+@$pb.GrpcServiceName('hello.HelloService')
 class GreeterClient extends $grpc.Client {
   /// The hostname for this service.
   static const $core.String defaultHost = '';
@@ -44,14 +44,14 @@ class GreeterClient extends $grpc.Client {
   // method descriptors
 
   static final _$sayHello = $grpc.ClientMethod<$0.HelloRequest, $0.HelloReply>(
-      '/helloworld.Greeter/SayHello',
+      '/hello.HelloService/SayHello',
       ($0.HelloRequest value) => value.writeToBuffer(),
       $0.HelloReply.fromBuffer);
 }
 
-@$pb.GrpcServiceName('helloworld.Greeter')
+@$pb.GrpcServiceName('hello.HelloService')
 abstract class GreeterServiceBase extends $grpc.Service {
-  $core.String get $name => 'helloworld.Greeter';
+  $core.String get $name => 'hello.HelloService';
 
   GreeterServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.HelloRequest, $0.HelloReply>(

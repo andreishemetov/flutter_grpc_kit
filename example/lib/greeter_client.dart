@@ -11,7 +11,9 @@ final class ExampleGreeterClient extends GrpcServiceClient<GreeterClient> {
 
   Future<Result<String, Exception>> sayHello(String name) {
     return executor.run(
-      (options) => stub.sayHello(HelloRequest(name: name), options: options),
+      (options) => stub
+          .sayHello(HelloRequest(name: name), options: options)
+          .timeout(const Duration(seconds: 10)),
       transform: (reply) => reply.message,
     );
   }
