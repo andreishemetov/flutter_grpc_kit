@@ -7,29 +7,38 @@ Reusable gRPC building blocks for Flutter apps:
 - **`GrpcServiceClient`** — base class for generated stub wrappers
 - **`GrpcLoggingInterceptor`** — PrettyDio-style boxed logs in debug
 
-For [flutter_alice](https://pub.dev/packages/flutter_alice) network inspection, add the sibling package [`grpc_alice_interceptor`](../grpc_alice_interceptor).
+For [flutter_alice](https://pub.dev/packages/flutter_alice) network inspection, add [`grpc_alice_interceptor`](https://pub.dev/packages/grpc_alice_interceptor).
+
+Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Install
 
-### From GitHub (private or public)
+```yaml
+dependencies:
+  flutter_grpc_kit: ^0.1.0
+  grpc: ^5.1.0
+  protobuf: ^6.0.0
+```
+
+Optional Alice inspector:
+
+```yaml
+dependencies:
+  grpc_alice_interceptor: ^0.1.1
+  flutter_alice: ^2.0.1
+```
+
+From Git:
 
 ```yaml
 dependencies:
   flutter_grpc_kit:
     git:
       url: https://github.com/andreishemetov/flutter_grpc_kit.git
-      ref: v0.1.0 # tag or branch
+      ref: v0.1.0
 ```
 
-### Local path (monorepo sibling)
-
-```yaml
-dependencies:
-  flutter_grpc_kit:
-    path: ../flutter_grpc_kit
-```
-
-Then run `flutter pub get`.
+For local development, use a path dependency to this repo.
 
 ## Quick start
 
@@ -98,7 +107,10 @@ the `example` directory and set the app endpoint to:
 flutter pub get
 flutter test
 dart analyze
+cd example && flutter pub get && dart analyze && flutter test
 ```
+
+Pull requests run the same checks via [GitHub Actions](.github/workflows/ci.yml). In branch protection, require **CI / analyze** (or **analyze**).
 
 ## License
 

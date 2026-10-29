@@ -3,8 +3,16 @@ description: >-
   gRPC channel wiring, unary executor with auth refresh, and debug logging
   for Dart/Flutter apps.
 version: 0.1.0
-homepage: https://github.com/your-org/flutter_grpc_kit
-repository: https://github.com/your-org/flutter_grpc_kit
+homepage: https://github.com/andreishemetov/flutter_grpc_kit
+repository: https://github.com/andreishemetov/flutter_grpc_kit
+issue_tracker: https://github.com/andreishemetov/flutter_grpc_kit/issues
+
+topics:
+  - grpc
+  - flutter
+  - networking
+  - interceptor
+  - authentication
 
 environment:
   sdk: ^3.10.0
