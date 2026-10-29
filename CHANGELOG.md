@@ -1,3 +1,3 @@
 ## 0.1.0
 
-- Initial publish: `GrpcExecutor`, channel factory, service client base, logging and Alice interceptors.
+- Initial release: `GrpcExecutor`, channel factory, service client base, and debug logging interceptors.
