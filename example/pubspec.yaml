@@ -14,8 +14,7 @@ dependencies:
   flutter_alice: ^2.0.1
   flutter_grpc_kit:
     path: ..
-  grpc_alice_interceptor:
-    path: ../../grpc_alice_interceptor
+  grpc_alice_interceptor: ^0.1.1
   grpc: ^5.1.0
   protobuf: ^6.0.0
 
