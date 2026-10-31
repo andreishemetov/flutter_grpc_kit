@@ -7,6 +7,6 @@ void main() {
     await tester.pump();
 
     expect(find.text('SayHello'), findsOneWidget);
-    expect(find.text('flutter_grpc_kit'), findsOneWidget);
+    expect(find.text('GrpcServiceClient example'), findsOneWidget);
   });
 }

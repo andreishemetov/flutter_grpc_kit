@@ -1,10 +1,16 @@
 # flutter_grpc_kit
 
-Reusable gRPC building blocks for Flutter apps:
+Build application-friendly gRPC clients for Flutter without exposing generated
+requests, responses, and stubs throughout the app.
 
-- **`GrpcExecutor`** — unary RPC helper with auth token metadata, optional extra headers, and single-flight token refresh on `UNAUTHENTICATED`
-- **`GrpcChannelFactory`** / **`GrpcEndpoint`** — parse gateway URLs and own a `ClientChannel`
+The main abstraction is **`GrpcServiceClient<TStub>`**: extend it to wrap a
+generated stub, expose methods shaped for your application, transform protobuf
+responses, and return consistent `Result` values. Supporting building blocks
+provide shared execution, channels, authentication, and logging:
+
 - **`GrpcServiceClient`** — base class for generated stub wrappers
+- **`GrpcExecutor`** — unary RPC helper with auth token metadata, response transformation, and single-flight token refresh on `UNAUTHENTICATED`
+- **`GrpcChannelFactory`** / **`GrpcEndpoint`** — parse gateway URLs and own a shared `ClientChannel`
 - **`GrpcLoggingInterceptor`** — PrettyDio-style boxed logs in debug
 
 For [flutter_alice](https://pub.dev/packages/flutter_alice) network inspection, add [`grpc_alice_interceptor`](https://pub.dev/packages/grpc_alice_interceptor).
@@ -55,12 +61,14 @@ final interceptors = [
   GrpcLoggingInterceptor(),
 ];
 
-// Pass interceptors when constructing generated clients:
-// MyServiceClient(factory.channel, interceptors: interceptors);
+final greeterClient = GreeterGrpcClient(
+  channel: factory.channel,
+  executor: executor,
+  interceptors: interceptors,
+);
 
-final result = await executor.run<MyEntity, MyResponse>(
-  (options) => client.getSomething(request, options: options),
-  transform: MyEntity.fromResponse,
+final result = await greeterClient.sayHello(
+  name: 'world',
 );
 
 result.fold(
@@ -69,11 +77,38 @@ result.fold(
 );
 ```
 
-Implement **`AuthHandler`** in your app. Pass extra per-call headers via `GrpcExecutor.metadata`.
+Define the application-facing client next to your networking layer:
+
+```dart
+final class GreeterGrpcClient extends GrpcServiceClient<GreeterClient> {
+  GreeterGrpcClient({
+    required super.channel,
+    required super.executor,
+    super.interceptors = const [],
+    super.stub,
+  }) : super(stubFactory: GreeterClient.new);
+
+  Future<Result<String, Exception>> sayHello({required String name}) {
+    return executor.run(
+      (options) => stub.sayHello(
+        HelloRequest(name: name),
+        options: options,
+      ),
+      transform: (reply) => reply.message,
+    );
+  }
+}
+```
+
+Only this class imports the generated request, response, and stub types. The
+rest of the application works with `sayHello`, a `String`, and `Result`.
+Implement **`AuthHandler`** in your app when authentication is required. Shared
+headers can be supplied through `GrpcExecutor.metadata`.
 
 ## Example app
 
-The [`example/`](example/) app calls the public
+The [`example/`](example/) app demonstrates a concrete
+[`GreeterGrpcClient`](example/lib/greeter_client.dart) and calls the public
 [`hello.HelloService/SayHello`](https://grpcb.in/) API over TLS. From the repo
 root:
 

@@ -1,6 +1,42 @@
 # flutter_grpc_kit example
 
-Small Flutter app that wires up `GrpcChannelFactory`, `GrpcExecutor`, logging and Alice interceptors, and calls grpcb.in's `hello.HelloService/SayHello` RPC.
+Small Flutter app showing how to put `GrpcServiceClient` between the UI and a
+generated gRPC stub. `GreeterGrpcClient` exposes an application-friendly
+`sayHello` method while keeping `HelloRequest`, `HelloReply`, and
+`GreeterClient` out of the widget layer.
+
+```text
+ExampleApp -> GreeterGrpcClient -> generated GreeterClient -> grpcb.in
+                    |
+                    +-> shared GrpcExecutor
+```
+
+The app also demonstrates shared channel creation, authentication metadata,
+logging, and Alice inspection. The central example is
+[`lib/greeter_client.dart`](lib/greeter_client.dart):
+
+```dart
+final class GreeterGrpcClient extends GrpcServiceClient<GreeterClient> {
+  GreeterGrpcClient({
+    required super.channel,
+    required super.executor,
+    super.interceptors = const [],
+  }) : super(stubFactory: GreeterClient.new);
+
+  Future<Result<String, Exception>> sayHello({required String name}) {
+    return executor.run(
+      (options) => stub.sayHello(
+        HelloRequest(name: name),
+        options: options,
+      ),
+      transform: (reply) => reply.message,
+    );
+  }
+}
+```
+
+The widget constructs this client once per endpoint and calls only its public
+API. It never constructs protobuf messages or invokes the generated stub.
 
 ## Run
 
