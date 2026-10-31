@@ -25,11 +25,9 @@ class _ExampleAppState extends State<ExampleApp> {
   late final GrpcExecutor _executor;
 
   GrpcChannelFactory? _channelFactory;
-  ExampleGreeterClient? _greeter;
+  GreeterGrpcClient? _greeterClient;
 
-  final _gatewayController = TextEditingController(
-    text: 'https://grpcb.in',
-  );
+  final _gatewayController = TextEditingController(text: 'https://grpcb.in');
   final _nameController = TextEditingController(text: 'world');
   final _tokenController = TextEditingController(text: 'demo-token');
 
@@ -77,7 +75,7 @@ class _ExampleAppState extends State<ExampleApp> {
       ),
     ];
     _channelFactory = factory;
-    _greeter = ExampleGreeterClient(
+    _greeterClient = GreeterGrpcClient(
       channel: factory.channel,
       executor: _executor,
       interceptors: interceptors,
@@ -97,7 +95,9 @@ class _ExampleAppState extends State<ExampleApp> {
     });
 
     _rebuildClient();
-    final result = await _greeter!.sayHello(_nameController.text.trim());
+    final result = await _greeterClient!.sayHello(
+      name: _nameController.text.trim(),
+    );
 
     if (!mounted) {
       return;
@@ -121,7 +121,7 @@ class _ExampleAppState extends State<ExampleApp> {
       title: 'flutter_grpc_kit example',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('flutter_grpc_kit'),
+          title: const Text('GrpcServiceClient example'),
           actions: [
             IconButton(
               tooltip: 'Open Alice inspector',
@@ -179,7 +179,9 @@ class _ExampleAppState extends State<ExampleApp> {
               ),
             const SizedBox(height: 24),
             const Text(
-              'Calls hello.HelloService/SayHello on grpcb.in.\n\n'
+              'The UI calls GreeterGrpcClient, which hides the generated '
+              'request, response, stub, and execution details.\n\n'
+              'The client calls hello.HelloService/SayHello on grpcb.in.\n\n'
               'Debug builds log gRPC calls to the console. '
               'Use the network icon or shake the device for Alice.',
             ),
