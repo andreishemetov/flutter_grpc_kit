@@ -147,6 +147,17 @@ cd example && flutter pub get && dart analyze && flutter test
 
 Pull requests run the same checks via [GitHub Actions](.github/workflows/ci.yml). In branch protection, require **CI / analyze** (or **analyze**).
 
+## AI coding agents
+
+Repository-specific development guidance is available in
+[`AGENTS.md`](AGENTS.md).
+
+A reusable integration workflow for AI coding agents is available in
+[`skills/flutter-grpc-kit`](skills/flutter-grpc-kit). It teaches agents to wrap
+generated stubs in application-facing `GrpcServiceClient` classes, reuse shared
+networking infrastructure, preserve authentication behavior, and add focused
+tests without exposing generated protobuf types to presentation code.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

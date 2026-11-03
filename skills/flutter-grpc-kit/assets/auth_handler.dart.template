@@ -1,0 +1,24 @@
+import 'package:flutter_grpc_kit/flutter_grpc_kit.dart';
+
+/// Adapt this class to the application's existing auth repository and storage.
+final class AppAuthHandler implements AuthHandler {
+  AppAuthHandler({String? token}) : _token = token;
+
+  String? _token;
+
+  @override
+  String? getToken() => _token;
+
+  @override
+  Future<String?> refreshToken() async {
+    // Call the application's refresh endpoint and persist the new credentials.
+    final newToken = await requestNewAccessToken();
+    _token = newToken;
+    return newToken;
+  }
+
+  @override
+  void clearToken() {
+    _token = null;
+  }
+}
