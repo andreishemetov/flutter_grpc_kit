@@ -112,6 +112,11 @@ The [`example/`](example/) app demonstrates a concrete
 [`hello.HelloService/SayHello`](https://grpcb.in/) API over TLS. From the repo
 root:
 
+For a detailed walkthrough with usage examples, read the article on
+[ashemetau.vercel.app](https://ashemetau.vercel.app/articles/building-reusable-grpc-clients-for-flutter)
+or
+[Medium](https://medium.com/@andrei.shemetau/building-reusable-grpc-clients-for-flutter-ad9d1b7115f0).
+
 ```bash
 cd example
 flutter run
