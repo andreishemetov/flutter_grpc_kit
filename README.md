@@ -112,6 +112,11 @@ The [`example/`](example/) app demonstrates a concrete
 [`hello.HelloService/SayHello`](https://grpcb.in/) API over TLS. From the repo
 root:
 
+For a detailed walkthrough with usage examples, read the article on
+[ashemetau.vercel.app](https://ashemetau.vercel.app/articles/building-reusable-grpc-clients-for-flutter)
+or
+[Medium](https://medium.com/@andrei.shemetau/building-reusable-grpc-clients-for-flutter-ad9d1b7115f0).
+
 ```bash
 cd example
 flutter run
@@ -146,6 +151,17 @@ cd example && flutter pub get && dart analyze && flutter test
 ```
 
 Pull requests run the same checks via [GitHub Actions](.github/workflows/ci.yml). In branch protection, require **CI / analyze** (or **analyze**).
+
+## AI coding agents
+
+Repository-specific development guidance is available in
+[`AGENTS.md`](AGENTS.md).
+
+A reusable integration workflow for AI coding agents is available in
+[`skills/flutter-grpc-kit`](skills/flutter-grpc-kit). It teaches agents to wrap
+generated stubs in application-facing `GrpcServiceClient` classes, reuse shared
+networking infrastructure, preserve authentication behavior, and add focused
+tests without exposing generated protobuf types to presentation code.
 
 ## License
 

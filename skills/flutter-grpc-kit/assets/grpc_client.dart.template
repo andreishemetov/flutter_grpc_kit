@@ -1,0 +1,21 @@
+import 'package:flutter_grpc_kit/flutter_grpc_kit.dart';
+
+// Import the generated service client, request, and response types here.
+
+/// Replace the placeholder types and method names with the target service.
+final class ExampleGrpcClient
+    extends GrpcServiceClient<GeneratedServiceClient> {
+  ExampleGrpcClient({
+    required super.channel,
+    required super.executor,
+    super.interceptors = const [],
+    super.stub,
+  }) : super(stubFactory: GeneratedServiceClient.new);
+
+  Future<Result<ExampleDto, Exception>> getExample({required String id}) {
+    return executor.run(
+      (options) => stub.getExample(GetExampleRequest(id: id), options: options),
+      transform: (response) => response.toDto(),
+    );
+  }
+}
