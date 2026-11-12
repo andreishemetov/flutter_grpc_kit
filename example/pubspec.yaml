@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  flutter_alice: ^2.0.1
+  flutter_alice: ^3.0.0
   flutter_grpc_kit:
     path: ..
   grpc_alice_interceptor: ^0.1.1
